@@ -1,0 +1,54 @@
+mappings:
+  properties:
+    Denomination:
+      type: text
+      analyzer: app_french_light
+      fields:
+        stemmed:
+          type: text
+          analyzer: app_french_heavy
+        ngram:
+          type: text
+          analyzer: edge_ngram_analyzer
+    MunicipalityFR:
+      type: text
+      analyzer: app_french_light
+      fields:
+        keyword:
+          type: keyword
+        stemmed:
+          type: text
+          analyzer: app_french_heavy
+        ngram:
+          type: text
+          analyzer: edge_ngram_analyzer
+    StreetFr:
+      type: text
+      analyzer: app_french_light
+      fields:
+        stemmed:
+          type: text
+          analyzer: app_french_heavy
+        ngram:
+          type: text
+          analyzer: edge_ngram_analyzer
+    Value:
+      type: text
+      analyzer: app_french_light
+      fields:
+        stemmed:
+          type: text
+          analyzer: app_french_heavy
+        ngram:
+          type: text
+          analyzer: edge_ngram_analyzer
+    Description:
+      type: text
+      analyzer: app_french_light
+      fields:
+        stemmed:
+          type: text
+          analyzer: app_french_heavy
+        ngram:
+          type: text
+          analyzer: edge_ngram_analyzer
