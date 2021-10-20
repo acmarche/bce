@@ -2,6 +2,8 @@
 
 use AcMarche\Bce\Import\ImportHandler;
 use AcMarche\Bce\Import\ImportHandlerInterface;
+use AcMarche\Bce\Search\SearchElastic;
+use AcMarche\Bce\Search\SearchEngineInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
@@ -9,8 +11,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_lo
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set('bottin.url_update_category', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
-    $parameters->set('es_config', ['hosts' => 'http://localhost:9200']);
+    //$parameters->set('bce.x', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
+    //$parameters->set('bce.es_config', ['hosts' => 'http://localhost:9200']);
 
     $services = $containerConfigurator->services();
 
@@ -20,7 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure()
         ->private();
 
-    $services->load('AcMarche\Bottin\\', __DIR__.'/../src/*')
+    $services->load('AcMarche\Bce\\', __DIR__.'/../src/*')
         ->exclude([__DIR__.'/../src/{Entity,Tests}']);
 
     $services->set(Elasticsearch\ClientBuilder::class);
@@ -39,7 +41,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ImportHandler::class)
         ->args([
-            '$handlers' => tagged_iterator('bottin.import'),
-            '$serviceLocator' => tagged_locator('bottin.import', 'key', 'getDefaultIndexName'),
+            '$handlers' => tagged_iterator('bce.import'),
+            '$serviceLocator' => tagged_locator('bce.import', 'key', 'getDefaultIndexName'),
         ]);
 };
