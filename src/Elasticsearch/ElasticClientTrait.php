@@ -25,7 +25,7 @@ trait ElasticClientTrait
             ]
         );
         //$this->client->setLogger(); todo
-        $this->setIndex(ElasticServer::INDEX_NAME_VISIT_FR);
+        $this->setIndex(ElasticServer::INDEX_NAME_SERVER);
     }
 
     public function setIndex(string $name)
