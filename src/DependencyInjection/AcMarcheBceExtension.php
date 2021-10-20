@@ -24,7 +24,7 @@ class AcMarcheBceExtension extends Extension implements PrependExtensionInterfac
         $this->loader->load('services.php');
         //$this->loader->load('routes/routes.php');
         $containerBuilder->registerForAutoconfiguration(ImportHandlerInterface::class)
-            ->addTag('bottin.import');
+            ->addTag('bce.import');
     }
 
     /**
@@ -36,8 +36,10 @@ class AcMarcheBceExtension extends Extension implements PrependExtensionInterfac
 
         foreach (array_keys($containerBuilder->getExtensions()) as $name) {
             switch ($name) {
-                case '22doctrine':
-                    $this->loadConfig('doctrine');
+                case 'framework':
+                    $this->loadConfig('framework');
+
+                    break;
             }
         }
     }

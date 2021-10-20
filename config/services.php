@@ -37,7 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
      * va pas ici alors mis dans AcMarcheBottinExtension
      */
     $services->instanceof(ImportHandlerInterface::class)
-        ->tag('bottin.import');
+        ->tag('bce.import');
 
     $services->set(ImportHandler::class)
         ->args([
