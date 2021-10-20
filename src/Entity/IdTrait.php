@@ -1,0 +1,22 @@
+<?php
+
+namespace AcMarche\Bce\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+trait IdTrait
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @Groups({"category:read"})
+     */
+    private ?int $id = 0;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+}

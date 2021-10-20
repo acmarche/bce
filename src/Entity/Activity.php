@@ -3,7 +3,7 @@
 namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\ActivityRepository;
-use AcMarche\Bce\Entity\Traits\IdTrait;
+use AcMarche\Bce\Entity\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 

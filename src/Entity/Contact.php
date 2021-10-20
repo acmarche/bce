@@ -3,7 +3,7 @@
 namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\ContactRepository;
-use AcMarche\Bce\Entity\Traits\IdTrait;
+use AcMarche\Bce\Entity\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
