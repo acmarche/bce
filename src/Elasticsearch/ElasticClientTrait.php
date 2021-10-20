@@ -14,7 +14,7 @@ trait ElasticClientTrait
 
     public function connect(string $host = 'localhost', int $port = 9200)
     {
-        self::loadEnv();
+        //self::loadEnv();
         $username = $_ENV['ELASTIC_USER'];
         $password = $_ENV['ELASTIC_PASSWORD'];
         $ds = $username.':'.$password.'@'.$host;

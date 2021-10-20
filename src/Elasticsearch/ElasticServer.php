@@ -25,23 +25,24 @@ class ElasticServer
     public function createIndex()
     {
         try {
-            $analyser = Yaml::parse(file_get_contents(__DIR__.'/mappings/analyzers.yaml'));
-            $settings     = Yaml::parse(file_get_contents(__DIR__.'/mappings/settings.yaml'));
+            $analyser = Yaml::parse(file_get_contents(__DIR__.'/../../config/elastic/analyzers.yaml'));
+            $settings = Yaml::parse(file_get_contents(__DIR__.'/../../config/elastic/settings.yaml'));
         } catch (ParseException $e) {
             printf('Unable to parse the YAML string: %s', $e->getMessage());
+
             return;
         }
 
         $settings['settings']['analysis'] = $analyser;
-        $response                     = $this->index->create($settings, true);
+        $response = $this->index->create($settings, true);
         dump($response);
     }
 
     public function setMapping()
     {
         try {
-            $properties = Yaml::parse(file_get_contents(__DIR__.'/mappings/mapping.yaml'));
-            $mapping  = new Mapping($properties['mappings']['properties']);
+            $properties = Yaml::parse(file_get_contents(__DIR__.'/../../config/elastic/mapping.yaml'));
+            $mapping = new Mapping($properties['mappings']['properties']);
             $response = $this->index->setMapping($mapping);
             dump($response);
         } catch (ParseException $e) {
