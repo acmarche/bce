@@ -5,4 +5,4 @@ settings:
   refresh_interval: 60s
 
 mappings:
-  dynamic: false
+  dynamic: true
