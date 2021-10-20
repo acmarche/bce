@@ -13,10 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticServerCommand extends Command
 {
     protected static $defaultName = 'bce:server';
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
 
     protected function configure()
     {
@@ -26,7 +22,7 @@ class ElasticServerCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
         $helper   = $this->getHelper('question');
         $question = new ConfirmationQuestion('Raz. Êtes vous sur ? (Y,N) ', false);
 
@@ -38,7 +34,7 @@ class ElasticServerCommand extends Command
         $elastic->createIndex();
         $elastic->setMapping();
 
-        $this->io->success('Index vidé');
+        $io->success('Index vidé');
 
         return Command::SUCCESS;
     }
