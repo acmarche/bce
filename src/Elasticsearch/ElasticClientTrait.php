@@ -15,7 +15,7 @@ trait ElasticClientTrait
 
     public function connect(string $host = 'localhost', int $port = 9200)
     {
-        self::loadEnv();
+        //self::loadEnv();
         $username = $_ENV['ELASTIC_USER'];
         $password = $_ENV['ELASTIC_PASSWORD'];
         $ds = $username.':'.$password.'@'.$host;
@@ -26,7 +26,7 @@ trait ElasticClientTrait
             ]
         );
         //$this->client->setLogger(); todo
-        $this->setIndex(ElasticServer::INDEX_NAME_VISIT_FR);
+        $this->setIndex(ElasticServer::INDEX_NAME_SERVER);
     }
 
     public function setIndex(string $name)
