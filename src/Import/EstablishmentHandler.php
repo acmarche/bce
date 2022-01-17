@@ -5,18 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Establishment;
 use AcMarche\Bce\Repository\EstablishmentRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class EstablishmentHandler implements ImportHandlerInterface
 {
-    private EstablishmentRepository $establishmentRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(
-        EstablishmentRepository $establishmentRepository,
-        CsvReader $csvReader
-    ) {
-        $this->establishmentRepository = $establishmentRepository;
-        $this->csvReader = $csvReader;
+    public function __construct(private EstablishmentRepository $establishmentRepository, private CsvReader $csvReader)
+    {
     }
 
     public function start(): void
@@ -24,7 +18,7 @@ class EstablishmentHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -34,12 +28,12 @@ class EstablishmentHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EstablishmentNumber' === $data[0]) {
             return;
         }
-        if (!$establishment = $this->establishmentRepository->checkExist($data[0])) {
+        if (($establishment = $this->establishmentRepository->checkExist($data[0])) === null) {
             $establishment = new Establishment();
             $establishment->establishmentNumber = $data[0];
             $this->establishmentRepository->persist($establishment);
@@ -50,7 +44,7 @@ class EstablishmentHandler implements ImportHandlerInterface
     /**
      * "EstablishmentNumber","StartDate","EnterpriseNumber".
      */
-    private function updateEstablishment(Establishment $establishment, array $data)
+    private function updateEstablishment(Establishment $establishment, array $data): void
     {
         $establishment->startDate = $data[1];
         $establishment->enterpriseNumber = $data[2];

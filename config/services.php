@@ -4,6 +4,8 @@ use AcMarche\Bce\Import\ImportHandler;
 use AcMarche\Bce\Import\ImportHandlerInterface;
 use AcMarche\Bce\Search\SearchElastic;
 use AcMarche\Bce\Search\SearchEngineInterface;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
@@ -25,15 +27,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->load('AcMarche\Bce\\', __DIR__.'/../src/*')
         ->exclude([__DIR__.'/../src/{Entity,Tests}']);
 
-    $services->set(Elasticsearch\ClientBuilder::class);
+    $services->set(ClientBuilder::class);
 
-    $services->set(Elasticsearch\Client::class)
+    $services->set(Client::class)
         ->factory('@Elasticsearch\ClientBuilder::fromConfig')
         ->args(['%es_config%']);
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
 
-    /**
+    /*
      * va pas ici alors mis dans AcMarcheBottinExtension
      */
     $services->instanceof(ImportHandlerInterface::class)

@@ -9,12 +9,12 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  */
 class LowerNameConverter implements NameConverterInterface
 {
-    public function normalize(string $propertyName)
+    public function normalize(string $propertyName): string
     {
         return lcfirst($propertyName);
     }
 
-    public function denormalize(string $propertyName)
+    public function denormalize(string $propertyName): string
     {
         return lcfirst($propertyName);
     }

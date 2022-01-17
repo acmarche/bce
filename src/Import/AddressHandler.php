@@ -5,18 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Address;
 use AcMarche\Bce\Repository\AddressRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class AddressHandler implements ImportHandlerInterface
 {
-    private AddressRepository $addressRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(
-        AddressRepository $addressRepository,
-        CsvReader $csvReader
-    ) {
-        $this->addressRepository = $addressRepository;
-        $this->csvReader = $csvReader;
+    public function __construct(private AddressRepository $addressRepository, private CsvReader $csvReader)
+    {
     }
 
     public function start(): void
@@ -24,11 +18,9 @@ class AddressHandler implements ImportHandlerInterface
     }
 
     /**
-     * @return array
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function readFile(string $fileName): iterable
+    public function readFile(string $fileName): array
     {
         return $this->csvReader->readCSVGenerator($fileName);
     }
@@ -36,12 +28,12 @@ class AddressHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$address = $this->addressRepository->checkExist($data[0], $data[4])) {
+        if (($address = $this->addressRepository->checkExist($data[0], $data[4])) === null) {
             $address = new Address();
             $address->entityNumber = $data[0];
             $address->zipcode = $data[4];
@@ -54,7 +46,7 @@ class AddressHandler implements ImportHandlerInterface
      * "EntityNumber","TypeOfAddress","CountryNL","CountryFR","Zipcode","MunicipalityNL","MunicipalityFR","StreetNL","StreetFR",
      * "HouseNumber","Box","ExtraAddressInfo","DateStrikingOff".
      */
-    private function updateAddress(Address $address, array $data)
+    private function updateAddress(Address $address, array $data): void
     {
         $address->typeOfAddress = $data[1];
         $address->countryNL = $data[2];

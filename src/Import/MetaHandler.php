@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Meta;
 use AcMarche\Bce\Repository\MetaRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class MetaHandler implements ImportHandlerInterface
 {
-    private MetaRepository $metaRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(MetaRepository $metaRepository, CsvReader $csvReader)
+    public function __construct(private MetaRepository $metaRepository, private CsvReader $csvReader)
     {
-        $this->metaRepository = $metaRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -24,7 +20,7 @@ class MetaHandler implements ImportHandlerInterface
     /**
      * @return Meta[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -34,9 +30,9 @@ class MetaHandler implements ImportHandlerInterface
     /**
      * @param Meta $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
-        if ($meta = $this->metaRepository->findByVariable($data->variable)) {
+        if (($meta = $this->metaRepository->findByVariable($data->variable)) !== null) {
             $meta->value = $data->value;
         } else {
             $this->metaRepository->persist($data);

@@ -4,7 +4,7 @@ namespace AcMarche\Bce;
 
 class Bce
 {
-    public static $files = [
+    public static array $files = [
         'all',
         'address',
         'code',

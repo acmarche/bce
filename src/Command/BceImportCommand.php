@@ -4,6 +4,7 @@ namespace AcMarche\Bce\Command;
 
 use AcMarche\Bce\Bce;
 use AcMarche\Bce\Import\ImportHandler;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,14 +15,12 @@ class BceImportCommand extends Command
 {
     protected static $defaultName = 'bce:import';
     protected static $defaultDescription = 'Import bce csv files [all, activity, address, branch, code, contact, denomination, enterprise, establishment, meta]';
-    private ImportHandler $importHandler;
 
     public function __construct(
-        ImportHandler $importHandler,
+        private ImportHandler $importHandler,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->importHandler = $importHandler;
     }
 
     protected function configure(): void
@@ -35,8 +34,8 @@ class BceImportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
 
-        if (!in_array($fileName, Bce::$files)) {
-            $io->warning('Missing file name. Possible values: '.join(' ', Bce::$files));
+        if (!\in_array($fileName, Bce::$files)) {
+            $io->warning('Missing file name. Possible values: '.implode(' ', Bce::$files));
 
             return Command::FAILURE;
         }
@@ -44,7 +43,7 @@ class BceImportCommand extends Command
         if ('all' === $fileName) {
             try {
                 $this->importHandler->importAll();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->error($e->getMessage());
             }
 
@@ -53,7 +52,7 @@ class BceImportCommand extends Command
 
         try {
             $handler = $this->importHandler->loadHandlerByKey($fileName);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $io->error($e->getMessage());
 
             return Command::FAILURE;
@@ -68,7 +67,7 @@ class BceImportCommand extends Command
                 $io->writeln('Memory'.memory_get_usage());
             }
             $handler->flush();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $io->error($e->getMessage());
         }
 

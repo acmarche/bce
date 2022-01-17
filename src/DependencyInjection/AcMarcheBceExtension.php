@@ -35,9 +35,8 @@ class AcMarcheBceExtension extends Extension implements PrependExtensionInterfac
         $this->loader = $this->initPhpFilerLoader($containerBuilder);
 
         foreach (array_keys($containerBuilder->getExtensions()) as $name) {
-            switch ($name) {
-                case '22doctrine':
-                    $this->loadConfig('doctrine');
+            if ('22doctrine' === $name) {
+                $this->loadConfig('doctrine');
             }
         }
     }

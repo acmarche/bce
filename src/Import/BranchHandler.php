@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Branch;
 use AcMarche\Bce\Repository\BranchRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class BranchHandler implements ImportHandlerInterface
 {
-    private BranchRepository $branchRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(BranchRepository $branchRepository, CsvReader $csvReader)
+    public function __construct(private BranchRepository $branchRepository, private CsvReader $csvReader)
     {
-        $this->branchRepository = $branchRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -22,7 +18,7 @@ class BranchHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -32,9 +28,9 @@ class BranchHandler implements ImportHandlerInterface
     /**
      * @param Branch $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
-        if ($branch = $this->branchRepository->checkExist($data->id)) {
+        if (($branch = $this->branchRepository->checkExist($data->id)) !== null) {
             $branch->startDate = $data->startDate;
             $branch->enterpriseNumber = $data->enterpriseNumber;
         } else {
@@ -44,7 +40,6 @@ class BranchHandler implements ImportHandlerInterface
 
     /**
      * @param Branch $data
-     * @return string
      */
     public function writeLn($data): string
     {
@@ -60,5 +55,4 @@ class BranchHandler implements ImportHandlerInterface
     {
         return 'branch';
     }
-
 }

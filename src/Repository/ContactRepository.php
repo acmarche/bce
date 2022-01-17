@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bce\Repository;
 
-use AcMarche\Bce\Entity\Contact;
 use AcMarche\Bce\Doctrine\OrmCrudTrait;
+use AcMarche\Bce\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

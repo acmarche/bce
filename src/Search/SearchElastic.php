@@ -9,6 +9,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\GeoDistance;
 use Elastica\Query\MatchQuery;
 use Elastica\Query\MultiMatch;
+use Elastica\ResultSet;
 use Elastica\Search;
 use Elastica\Suggest;
 use Elastica\Suggest\Term as SuggestTerm;
@@ -66,15 +67,15 @@ class SearchElastic implements SearchEngineInterface
         $this->boolQuery->addMust($match);
 
         $ficheFilter = new MatchQuery('type', 'fiche');
- //       $this->boolQuery->addMust($ficheFilter);
+        //       $this->boolQuery->addMust($ficheFilter);
 
         return $this->boolQuery;
     }
 
     /**
-     * @return iterable|\Elastica\ResultSet
+     * @return iterable|ResultSet
      */
-    public function doSearchForCap(string $keyword): array
+    public function doSearchForCap(string $keyword): array|callable
     {
         $boolQuery = $this->createQueryForFiche($keyword);
 

@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bce\Repository;
 
-use AcMarche\Bce\Entity\Denomination;
 use AcMarche\Bce\Doctrine\OrmCrudTrait;
+use AcMarche\Bce\Entity\Denomination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -34,5 +34,4 @@ class DenominationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

@@ -8,40 +8,40 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * https://elasticsearch-cheatsheet.jolicode.com/
- * Class ElasticServer
- *
+ * Class ElasticServer.
  */
 class ElasticServer
 {
     use ElasticClientTrait;
 
-    const INDEX_NAME_VISIT_FR = 'cbe';
+    public const INDEX_NAME_VISIT_FR = 'cbe';
 
     public function __construct()
     {
         $this->connect();
     }
 
-    public function createIndex()
+    public function createIndex(): void
     {
         try {
             $analyser = Yaml::parse(file_get_contents(__DIR__.'/mappings/analyzers.yaml'));
-            $settings     = Yaml::parse(file_get_contents(__DIR__.'/mappings/settings.yaml'));
+            $settings = Yaml::parse(file_get_contents(__DIR__.'/mappings/settings.yaml'));
         } catch (ParseException $e) {
             printf('Unable to parse the YAML string: %s', $e->getMessage());
+
             return;
         }
 
         $settings['settings']['analysis'] = $analyser;
-        $response                     = $this->index->create($settings, true);
+        $response = $this->index->create($settings, true);
         dump($response);
     }
 
-    public function setMapping()
+    public function setMapping(): void
     {
         try {
             $properties = Yaml::parse(file_get_contents(__DIR__.'/mappings/mapping.yaml'));
-            $mapping  = new Mapping($properties['mappings']['properties']);
+            $mapping = new Mapping($properties['mappings']['properties']);
             $response = $this->index->setMapping($mapping);
             dump($response);
         } catch (ParseException $e) {

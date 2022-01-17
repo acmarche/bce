@@ -2,32 +2,23 @@
 
 namespace AcMarche\Bce\Entity;
 
-use AcMarche\Bce\Entity\IdTrait;
-use Doctrine\ORM\Mapping as ORM;
 use AcMarche\Bce\Repository\EstablishmentRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass=EstablishmentRepository::class)
- * @ORM\Table(name="bce_establishment", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="establishment_idx", columns={"establishment_number"})})
- * @UniqueEntity(fields={"establishmentNumber"})
- */
-class Establishment
+#[UniqueEntity(fields: ['establishmentNumber'])]
+#[ORM\Entity(repositoryClass: EstablishmentRepository::class)]
+#[ORM\Table(name: 'bce_establishment')]
+#[ORM\UniqueConstraint(name: 'establishment_idx', columns: ['establishment_number'])]
+class Establishment implements Stringable
 {
     use IdTrait;
-
-    /**
-     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     public string $establishmentNumber;
-    /**
-     * @ORM\Column(type="string", length=10, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 10, nullable: false)]
     public string $startDate;
-    /**
-     * @ORM\Column(type="string", length=50, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: false)]
     public string $enterpriseNumber;
     /**
      * @var array|Address[]
@@ -46,7 +37,7 @@ class Establishment
      */
     public array $denominations;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->establishmentNumber;
     }

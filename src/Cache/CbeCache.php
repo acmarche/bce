@@ -9,15 +9,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CbeCache
 {
-    private ParameterBagInterface $parameterBag;
-    private SerializerInterface $serializer;
-
-    public function __construct(
-        ParameterBagInterface $parameterBag,
-        SerializerInterface $serializer
-    ) {
-        $this->parameterBag = $parameterBag;
-        $this->serializer = $serializer;
+    public function __construct(private ParameterBagInterface $parameterBag, private SerializerInterface $serializer)
+    {
     }
 
     public function getCacheData(string $number): ?Enterprise
@@ -38,7 +31,7 @@ class CbeCache
         return null;
     }
 
-    public function write(string $cbeJson, string $number)
+    public function write(string $cbeJson, string $number): void
     {
         $file = $this->getVarDirectory().'/'.$number.'.json';
         $filesystem = new Filesystem();

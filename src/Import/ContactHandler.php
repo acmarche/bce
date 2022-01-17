@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Contact;
 use AcMarche\Bce\Repository\ContactRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class ContactHandler implements ImportHandlerInterface
 {
-    private ContactRepository $contactRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(ContactRepository $contactRepository, CsvReader $csvReader)
+    public function __construct(private ContactRepository $contactRepository, private CsvReader $csvReader)
     {
-        $this->contactRepository = $contactRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -23,7 +19,7 @@ class ContactHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -41,7 +37,7 @@ class ContactHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EntityNumber' === $data[0]) {
             return;
@@ -52,7 +48,7 @@ class ContactHandler implements ImportHandlerInterface
     /**
      * "EntityNumber","EntityContact","ContactType","Value".
      */
-    private function updateContact(array $data)
+    private function updateContact(array $data): void
     {
         $contact = new Contact();
         $contact->entityContact = $data[1];

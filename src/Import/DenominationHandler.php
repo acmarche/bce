@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Denomination;
 use AcMarche\Bce\Repository\DenominationRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class DenominationHandler implements ImportHandlerInterface
 {
-    private DenominationRepository $denominationRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(DenominationRepository $denominationRepository, CsvReader $csvReader)
+    public function __construct(private DenominationRepository $denominationRepository, private CsvReader $csvReader)
     {
-        $this->denominationRepository = $denominationRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -22,7 +18,7 @@ class DenominationHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -32,12 +28,12 @@ class DenominationHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$denomination = $this->denominationRepository->checkExist($data[0], $data[1], $data[2])) {
+        if (($denomination = $this->denominationRepository->checkExist($data[0], $data[1], $data[2])) === null) {
             $denomination = new Denomination();
             $denomination->entityNumber = $data[0];
             $denomination->language = $data[1];
@@ -50,7 +46,7 @@ class DenominationHandler implements ImportHandlerInterface
     /**
      * "EntityNumber","Language","TypeOfDenomination","Denomination".
      */
-    private function updateDenomination(Denomination $denomination, array $data)
+    private function updateDenomination(Denomination $denomination, array $data): void
     {
         $denomination->denomination = $data[3];
     }

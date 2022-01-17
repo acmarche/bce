@@ -5,18 +5,13 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Enterprise;
 use AcMarche\Bce\Repository\EnterpriseRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 use SplFileObject;
 
 class EnterpriseHandler implements ImportHandlerInterface
 {
-    private EnterpriseRepository $enterpriseRepository;
-
-    private CsvReader $csvReader;
-
-    public function __construct(EnterpriseRepository $enterpriseRepository, CsvReader $csvReader)
+    public function __construct(private EnterpriseRepository $enterpriseRepository, private CsvReader $csvReader)
     {
-        $this->enterpriseRepository = $enterpriseRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -24,7 +19,7 @@ class EnterpriseHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -34,13 +29,13 @@ class EnterpriseHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EnterpriseNumber' === $data[0]) {
             return;
         }
 
-        if (!$enterprise = $this->enterpriseRepository->checkExist($data[0])) {
+        if (($enterprise = $this->enterpriseRepository->checkExist($data[0])) === null) {
             $enterprise = new Enterprise();
             $enterprise->enterpriseNumber = $data[0];
             $this->enterpriseRepository->persist($enterprise);
@@ -52,7 +47,7 @@ class EnterpriseHandler implements ImportHandlerInterface
     /**
      * @return iterable|Enterprise[]
      */
-    public function updateEnterprise(Enterprise $enterprise, array $data): ?Enterprise
+    public function updateEnterprise(Enterprise $enterprise, array $data): Enterprise
     {
         $enterprise->status = $data[1];
         $enterprise->juridicalSituation = (int) $data[2];

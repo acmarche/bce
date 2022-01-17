@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bce\Repository;
 
-use AcMarche\Bce\Entity\Branch;
 use AcMarche\Bce\Doctrine\OrmCrudTrait;
+use AcMarche\Bce\Entity\Branch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,5 +30,4 @@ class BranchRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

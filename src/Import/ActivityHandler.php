@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Activity;
 use AcMarche\Bce\Repository\ActivityRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class ActivityHandler implements ImportHandlerInterface
 {
-    private ActivityRepository $activityRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(ActivityRepository $activityRepository, CsvReader $csvReader)
+    public function __construct(private ActivityRepository $activityRepository, private CsvReader $csvReader)
     {
-        $this->activityRepository = $activityRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -22,7 +18,7 @@ class ActivityHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -32,12 +28,12 @@ class ActivityHandler implements ImportHandlerInterface
     /**
      * @param array $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$activity = $this->activityRepository->checkExist($data[3], $data[0], $data[1])) {
+        if (($activity = $this->activityRepository->checkExist($data[3], $data[0], $data[1])) === null) {
             $activity = new Activity();
             $activity->entityNumber = $data[0];
             $activity->activityGroup = $data[1];
@@ -50,7 +46,7 @@ class ActivityHandler implements ImportHandlerInterface
     /**
      * "EntityNumber","ActivityGroup","NaceVersion","NaceCode","Classification".
      */
-    private function updateActivity(Activity $activity, array $data)
+    private function updateActivity(Activity $activity, array $data): void
     {
         $activity->classification = $data[4];
         $activity->naceVersion = $data[2];

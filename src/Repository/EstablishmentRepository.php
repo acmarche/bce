@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bce\Repository;
 
-use AcMarche\Bce\Entity\Establishment;
 use AcMarche\Bce\Doctrine\OrmCrudTrait;
+use AcMarche\Bce\Entity\Establishment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,5 +30,4 @@ class EstablishmentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

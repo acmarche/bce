@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bce\Command;
 
 use AcMarche\Bce\Elasticsearch\ElasticServer;
@@ -13,12 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticServerCommand extends Command
 {
     protected static $defaultName = 'bce:server';
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
+    private ?SymfonyStyle $io = null;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Raz l\'index');
@@ -27,10 +23,10 @@ class ElasticServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
-        $helper   = $this->getHelper('question');
+        $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion('Raz. Êtes vous sur ? (Y,N) ', false);
 
-        if (! $helper->ask($input, $output, $question)) {
+        if (!$helper->ask($input, $output, $question)) {
             return Command::SUCCESS;
         }
 

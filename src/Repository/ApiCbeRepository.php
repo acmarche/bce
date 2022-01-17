@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bce\Repository;
 
+use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -12,6 +13,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ApiCbeRepository
 {
+    public $url;
     private HttpClientInterface $httpClient;
     private string $clientId;
     private string $secretKey;
@@ -23,13 +25,13 @@ class ApiCbeRepository
         $this->secretKey = $_ENV['CBE_KEY'];
     }
 
-    private function connect()
+    private function connect(): void
     {
         $this->httpClient = HttpClient::create();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      * @throws TransportExceptionInterface
      */
     public function getByNumber(string $number): string
@@ -37,9 +39,9 @@ class ApiCbeRepository
         $this->connect();
 
         $request = $this->httpClient->request(
-                'POST',
-                $this->url.'/byCBE',
-                [
+            'POST',
+            $this->url.'/byCBE',
+            [
                     'json' => [
                         'clientId' => $this->clientId,
                         'secretKey' => $this->secretKey,
@@ -48,30 +50,30 @@ class ApiCbeRepository
                         ],
                     ],
                 ]
-            );
+        );
 
         return $this->getContent($request, $number);
     }
 
     /**
      * @throws TransportExceptionInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function getContent(ResponseInterface $request, string $number): string
     {
         $statusCode = $request->getStatusCode();
         if (404 === $statusCode) {
-            throw new \Exception("Aucune entreprise trouvée avec le numéro '.$number.'");
+            throw new Exception("Aucune entreprise trouvée avec le numéro '.$number.'");
         }
 
         if (400 === $statusCode) {
-            throw new \Exception('Your quota limit is reached');
+            throw new Exception('Your quota limit is reached');
         }
 
         try {
             return $request->getContent();
         } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

@@ -5,16 +5,12 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Code;
 use AcMarche\Bce\Repository\CodeRepository;
 use AcMarche\Bce\Utils\CsvReader;
+use Exception;
 
 class CodeHandler implements ImportHandlerInterface
 {
-    private CodeRepository $codeRepository;
-    private CsvReader $csvReader;
-
-    public function __construct(CodeRepository $codeRepository, CsvReader $csvReader)
+    public function __construct(private CodeRepository $codeRepository, private CsvReader $csvReader)
     {
-        $this->codeRepository = $codeRepository;
-        $this->csvReader = $csvReader;
     }
 
     public function start(): void
@@ -24,7 +20,7 @@ class CodeHandler implements ImportHandlerInterface
     /**
      * @return Code[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -34,9 +30,9 @@ class CodeHandler implements ImportHandlerInterface
     /**
      * @param Code $data
      */
-    public function handle($data)
+    public function handle($data): void
     {
-        if ($code = $this->codeRepository->checkExist($data->code, $data->language, $data->category)) {
+        if (($code = $this->codeRepository->checkExist($data->code, $data->language, $data->category)) !== null) {
             $code->description = $data->description;
         } else {
             $this->codeRepository->persist($data);
@@ -45,7 +41,6 @@ class CodeHandler implements ImportHandlerInterface
 
     /**
      * @param Code $data
-     * @return string
      */
     public function writeLn($data): string
     {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bce\Command;
 
 use AcMarche\Bce\Search\SearchElastic;
@@ -10,12 +9,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 class ElasticSearcherCommand extends Command
 {
     protected static $defaultName = 'bce:search';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Rechercher')

@@ -4,11 +4,12 @@ namespace AcMarche\Bce\Elasticsearch;
 
 use Elastica\Client;
 use Elastica\Index;
+use Exception;
 use Symfony\Component\Dotenv\Dotenv;
 
 trait ElasticClientTrait
 {
-    public  Client $client;
+    public Client $client;
 
     private Index $index;
 
@@ -38,8 +39,8 @@ trait ElasticClientTrait
         $dotenv = new Dotenv();
         try {
             $dotenv->load(__DIR__.'/../../.env');
-        } catch (\Exception $exception) {
-            echo "error load env: ".$exception->getMessage();
+        } catch (Exception $exception) {
+            echo 'error load env: '.$exception->getMessage();
         }
     }
 }
