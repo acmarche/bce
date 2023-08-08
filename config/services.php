@@ -30,7 +30,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ClientBuilder::class);
 
     $services->set(Client::class)
-        ->factory('@Elasticsearch\ClientBuilder::fromConfig')
+        ->factory('@' . ClientBuilder::class . '::fromConfig')
         ->args(['%es_config%']);
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
