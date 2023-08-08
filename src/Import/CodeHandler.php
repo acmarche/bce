@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Code;
 use AcMarche\Bce\Repository\CodeRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class CodeHandler implements ImportHandlerInterface
 {
@@ -20,7 +19,7 @@ class CodeHandler implements ImportHandlerInterface
     /**
      * @return Code[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {

@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Contact;
 use AcMarche\Bce\Repository\ContactRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class ContactHandler implements ImportHandlerInterface
 {
@@ -19,7 +18,7 @@ class ContactHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {

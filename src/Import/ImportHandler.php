@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bce\Import;
 
-use Exception;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class ImportHandler
@@ -12,7 +11,7 @@ class ImportHandler
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function loadHandlerByKey(string $key): ImportHandlerInterface
     {
@@ -20,11 +19,11 @@ class ImportHandler
             return $this->serviceLocator->get($key);
         }
 
-        throw new Exception('No handler found for '.$key);
+        throw new \Exception('No handler found for '.$key);
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function importAll(): void
     {
@@ -37,7 +36,7 @@ class ImportHandler
                     $handler->handle($data);
                     dump($data[0]);
                     if (1000 === $i) {
-                        //break;
+                        // break;
                     }
 
                     ++$i;
@@ -45,8 +44,8 @@ class ImportHandler
 
                 $handler->flush();
                 dump('Memory: '.memory_get_usage());
-            } catch (Exception $e) {
-                throw new Exception($e->getMessage(), $e->getCode(), $e);
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
 

@@ -7,14 +7,15 @@ use AcMarche\Bce\Search\SearchEngineInterface;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    //$parameters->set('bce.x', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
-    //$parameters->set('bce.es_config', ['hosts' => 'http://localhost:9200']);
+    // $parameters->set('bce.x', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
+    // $parameters->set('bce.es_config', ['hosts' => 'http://localhost:9200']);
 
     $services = $containerConfigurator->services();
 
@@ -30,7 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ClientBuilder::class);
 
     $services->set(Client::class)
-        ->factory('@' . ClientBuilder::class . '::fromConfig')
+        ->factory('@'.ClientBuilder::class.'::fromConfig')
         ->args(['%es_config%']);
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);

@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Branch;
 use AcMarche\Bce\Repository\BranchRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class BranchHandler implements ImportHandlerInterface
 {
@@ -18,7 +17,7 @@ class BranchHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {

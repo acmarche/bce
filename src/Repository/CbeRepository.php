@@ -4,7 +4,6 @@ namespace AcMarche\Bce\Repository;
 
 use AcMarche\Bce\Cache\CbeCache;
 use AcMarche\Bce\Entity\Enterprise;
-use Exception;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -16,7 +15,7 @@ class CbeRepository
 
     /**
      * @throws TransportExceptionInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function findByNumber(string $number): Enterprise
     {
@@ -29,8 +28,8 @@ class CbeRepository
                 Enterprise::class,
                 'json'
             );
-        } catch (Exception $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $entreprise;

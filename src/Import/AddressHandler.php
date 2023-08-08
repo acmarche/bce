@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Address;
 use AcMarche\Bce\Repository\AddressRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class AddressHandler implements ImportHandlerInterface
 {
@@ -18,7 +17,7 @@ class AddressHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): array
     {

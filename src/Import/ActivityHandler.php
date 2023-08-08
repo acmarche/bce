@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Activity;
 use AcMarche\Bce\Repository\ActivityRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class ActivityHandler implements ImportHandlerInterface
 {
@@ -18,7 +17,7 @@ class ActivityHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {

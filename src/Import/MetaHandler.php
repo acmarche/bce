@@ -5,7 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Meta;
 use AcMarche\Bce\Repository\MetaRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
 
 class MetaHandler implements ImportHandlerInterface
 {
@@ -20,7 +19,7 @@ class MetaHandler implements ImportHandlerInterface
     /**
      * @return Meta[]
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {

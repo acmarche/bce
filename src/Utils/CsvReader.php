@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bce\Utils;
 
-use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -13,7 +12,7 @@ class CsvReader
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFileAndConvertToClass(string $fileName): iterable
     {
@@ -21,22 +20,22 @@ class CsvReader
         $file = $varDirectory.'/'.$fileName.'.csv';
 
         if (!is_readable($file)) {
-            throw new Exception('File not found '.$file);
+            throw new \Exception('File not found '.$file);
         }
 
         $class = 'AcMarche\Bce\Entity\\'.ucfirst($fileName).'[]';
         try {
             $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
             ]);
-        } catch (Exception$exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
+        } catch (\Exception$exception) {
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         return $objects;
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readCSVGenerator(string $fileName): iterable
     {
@@ -44,7 +43,7 @@ class CsvReader
         $file = $varDirectory.'/'.$fileName.'.csv';
 
         if (!is_readable($file)) {
-            throw new Exception('File not found '.$file);
+            throw new \Exception('File not found '.$file);
         }
 
         $handle = fopen($file, 'r');

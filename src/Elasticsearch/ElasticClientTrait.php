@@ -4,7 +4,6 @@ namespace AcMarche\Bce\Elasticsearch;
 
 use Elastica\Client;
 use Elastica\Index;
-use Exception;
 use Symfony\Component\Dotenv\Dotenv;
 
 trait ElasticClientTrait
@@ -15,7 +14,7 @@ trait ElasticClientTrait
 
     public function connect(string $host = 'localhost', int $port = 9200)
     {
-        //self::loadEnv();
+        // self::loadEnv();
         $username = $_ENV['ELASTIC_USER'];
         $password = $_ENV['ELASTIC_PASSWORD'];
         $ds = $username.':'.$password.'@'.$host;
@@ -25,7 +24,7 @@ trait ElasticClientTrait
                 'port' => $port,
             ]
         );
-        //$this->client->setLogger(); todo
+        // $this->client->setLogger(); todo
         $this->setIndex(ElasticServer::INDEX_NAME_SERVER);
     }
 
@@ -39,7 +38,7 @@ trait ElasticClientTrait
         $dotenv = new Dotenv();
         try {
             $dotenv->load(__DIR__.'/../../.env');
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             echo 'error load env: '.$exception->getMessage();
         }
     }

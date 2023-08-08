@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bce\Repository;
 
-use Exception;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -34,7 +33,7 @@ class ApiCbeRepository
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      * @throws TransportExceptionInterface
      */
     public function getByNumber(string $number): string
@@ -60,23 +59,23 @@ class ApiCbeRepository
 
     /**
      * @throws TransportExceptionInterface
-     * @throws Exception
+     * @throws \Exception
      */
     public function getContent(ResponseInterface $request, string $number): string
     {
         $statusCode = $request->getStatusCode();
         if (404 === $statusCode) {
-            throw new Exception(sprintf('Aucune entreprise trouvée avec le numéro \'.%s.\'', $number));
+            throw new \Exception(sprintf('Aucune entreprise trouvée avec le numéro \'.%s.\'', $number));
         }
 
         if (400 === $statusCode) {
-            throw new Exception('Your quota limit is reached');
+            throw new \Exception('Your quota limit is reached');
         }
 
         try {
             return $request->getContent();
-        } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        } catch (ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface $e) {
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

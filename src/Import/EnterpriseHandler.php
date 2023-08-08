@@ -5,8 +5,6 @@ namespace AcMarche\Bce\Import;
 use AcMarche\Bce\Entity\Enterprise;
 use AcMarche\Bce\Repository\EnterpriseRepository;
 use AcMarche\Bce\Utils\CsvReader;
-use Exception;
-use SplFileObject;
 
 class EnterpriseHandler implements ImportHandlerInterface
 {
@@ -19,7 +17,7 @@ class EnterpriseHandler implements ImportHandlerInterface
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {
@@ -81,13 +79,13 @@ class EnterpriseHandler implements ImportHandlerInterface
      */
     public function getEnterprisesCasse(string $file): iterable
     {
-        $fileObj = new SplFileObject($file);
+        $fileObj = new \SplFileObject($file);
 
         $fileObj->setFlags(
-            SplFileObject::READ_CSV
-            | SplFileObject::SKIP_EMPTY
-            | SplFileObject::READ_AHEAD
-            | SplFileObject::DROP_NEW_LINE
+            \SplFileObject::READ_CSV
+            | \SplFileObject::SKIP_EMPTY
+            | \SplFileObject::READ_AHEAD
+            | \SplFileObject::DROP_NEW_LINE
         );
         $fileObj->setCsvControl(',');
 

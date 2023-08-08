@@ -4,14 +4,13 @@ namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[UniqueEntity(fields: ['entityNumber', 'zipcode'])]
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 #[ORM\Table(name: 'bce_address')]
 #[ORM\UniqueConstraint(name: 'code_idx', columns: ['entity_number', 'zipcode'])]
-class Address implements Stringable
+class Address implements \Stringable
 {
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false)]

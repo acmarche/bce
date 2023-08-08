@@ -4,10 +4,9 @@ namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
-class Contact implements Stringable
+class Contact implements \Stringable
 {
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false)]

@@ -4,14 +4,13 @@ namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\ActivityRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[UniqueEntity(fields: ['naceCode', 'entityNumber', 'activityGroup'])]
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 #[ORM\Table(name: 'bce_activity')]
 #[ORM\UniqueConstraint(name: 'activity_idx', columns: ['entity_number', 'nace_code', 'activity_group'])]
-class Activity implements Stringable
+class Activity implements \Stringable
 {
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false)]

@@ -4,7 +4,6 @@ namespace AcMarche\Bce\Command;
 
 use AcMarche\Bce\Bce;
 use AcMarche\Bce\Import\ImportHandler;
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +34,7 @@ class BceImportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
 
-        if (!\in_array($fileName, Bce::$files)) {
+        if (!\in_array($fileName, Bce::$files, true)) {
             $io->warning('Missing file name. Possible values: '.implode(' ', Bce::$files));
 
             return Command::FAILURE;
@@ -44,7 +43,7 @@ class BceImportCommand extends Command
         if ('all' === $fileName) {
             try {
                 $this->importHandler->importAll();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $io->error($e->getMessage());
             }
 
@@ -53,7 +52,7 @@ class BceImportCommand extends Command
 
         try {
             $handler = $this->importHandler->loadHandlerByKey($fileName);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $io->error($exception->getMessage());
 
             return Command::FAILURE;
@@ -69,7 +68,7 @@ class BceImportCommand extends Command
             }
 
             $handler->flush();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $io->error($exception->getMessage());
         }
 

@@ -4,14 +4,13 @@ namespace AcMarche\Bce\Entity;
 
 use AcMarche\Bce\Repository\BranchRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[UniqueEntity(fields: ['id'])]
 #[ORM\Entity(repositoryClass: BranchRepository::class)]
 #[ORM\Table(name: 'bce_branch')]
 #[ORM\UniqueConstraint(name: 'branch_idx', columns: ['id'])]
-class Branch implements Stringable
+class Branch implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
