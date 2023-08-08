@@ -10,7 +10,7 @@ use SplFileObject;
 
 class EnterpriseHandler implements ImportHandlerInterface
 {
-    public function __construct(private EnterpriseRepository $enterpriseRepository, private CsvReader $csvReader)
+    public function __construct(private readonly EnterpriseRepository $enterpriseRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -35,7 +35,7 @@ class EnterpriseHandler implements ImportHandlerInterface
             return;
         }
 
-        if (($enterprise = $this->enterpriseRepository->checkExist($data[0])) === null) {
+        if (!($enterprise = $this->enterpriseRepository->checkExist($data[0])) instanceof Enterprise) {
             $enterprise = new Enterprise();
             $enterprise->enterpriseNumber = $data[0];
             $this->enterpriseRepository->persist($enterprise);

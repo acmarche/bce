@@ -12,12 +12,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticServerCommand extends Command
 {
     protected static $defaultName = 'bce:server';
+
     private ?SymfonyStyle $io = null;
 
     protected function configure(): void
     {
         $this
-            ->setDescription('Raz l\'index');
+            ->setDescription("Raz l'index");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

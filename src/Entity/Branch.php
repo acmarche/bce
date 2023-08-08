@@ -17,10 +17,13 @@ class Branch implements Stringable
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     public int $idx;
+
     #[ORM\Column(type: 'string', length: 50, unique: true)]
     public string $id;
+
     #[ORM\Column(type: 'string', length: 50, nullable: false)]
     public string $startDate;
+
     #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     public string $enterpriseNumber;
 

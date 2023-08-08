@@ -14,10 +14,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BceImportCommand extends Command
 {
     protected static $defaultName = 'bce:import';
+
     protected static $defaultDescription = 'Import bce csv files [all, activity, address, branch, code, contact, denomination, enterprise, establishment, meta]';
 
     public function __construct(
-        private ImportHandler $importHandler,
+        private readonly ImportHandler $importHandler,
         string $name = null
     ) {
         parent::__construct($name);
@@ -52,8 +53,8 @@ class BceImportCommand extends Command
 
         try {
             $handler = $this->importHandler->loadHandlerByKey($fileName);
-        } catch (Exception $e) {
-            $io->error($e->getMessage());
+        } catch (Exception $exception) {
+            $io->error($exception->getMessage());
 
             return Command::FAILURE;
         }
@@ -66,9 +67,10 @@ class BceImportCommand extends Command
                 $handler->flush();
                 $io->writeln('Memory'.memory_get_usage());
             }
+
             $handler->flush();
-        } catch (Exception $e) {
-            $io->error($e->getMessage());
+        } catch (Exception $exception) {
+            $io->error($exception->getMessage());
         }
 
         return Command::SUCCESS;

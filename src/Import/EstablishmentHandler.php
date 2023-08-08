@@ -9,7 +9,7 @@ use Exception;
 
 class EstablishmentHandler implements ImportHandlerInterface
 {
-    public function __construct(private EstablishmentRepository $establishmentRepository, private CsvReader $csvReader)
+    public function __construct(private readonly EstablishmentRepository $establishmentRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -33,11 +33,13 @@ class EstablishmentHandler implements ImportHandlerInterface
         if ('EstablishmentNumber' === $data[0]) {
             return;
         }
-        if (($establishment = $this->establishmentRepository->checkExist($data[0])) === null) {
+
+        if (!($establishment = $this->establishmentRepository->checkExist($data[0])) instanceof Establishment) {
             $establishment = new Establishment();
             $establishment->establishmentNumber = $data[0];
             $this->establishmentRepository->persist($establishment);
         }
+
         $this->updateEstablishment($establishment, $data);
     }
 

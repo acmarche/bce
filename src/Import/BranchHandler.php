@@ -9,7 +9,7 @@ use Exception;
 
 class BranchHandler implements ImportHandlerInterface
 {
-    public function __construct(private BranchRepository $branchRepository, private CsvReader $csvReader)
+    public function __construct(private readonly BranchRepository $branchRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -30,7 +30,7 @@ class BranchHandler implements ImportHandlerInterface
      */
     public function handle($data): void
     {
-        if (($branch = $this->branchRepository->checkExist($data->id)) !== null) {
+        if (($branch = $this->branchRepository->checkExist($data->id)) instanceof Branch) {
             $branch->startDate = $data->startDate;
             $branch->enterpriseNumber = $data->enterpriseNumber;
         } else {

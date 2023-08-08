@@ -9,7 +9,7 @@ use Exception;
 
 class ContactHandler implements ImportHandlerInterface
 {
-    public function __construct(private ContactRepository $contactRepository, private CsvReader $csvReader)
+    public function __construct(private readonly ContactRepository $contactRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -42,6 +42,7 @@ class ContactHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
+
         $this->updateContact($data);
     }
 

@@ -9,7 +9,7 @@ use Exception;
 
 class DenominationHandler implements ImportHandlerInterface
 {
-    public function __construct(private DenominationRepository $denominationRepository, private CsvReader $csvReader)
+    public function __construct(private readonly DenominationRepository $denominationRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -33,13 +33,15 @@ class DenominationHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (($denomination = $this->denominationRepository->checkExist($data[0], $data[1], $data[2])) === null) {
+
+        if (!($denomination = $this->denominationRepository->checkExist($data[0], $data[1], $data[2])) instanceof Denomination) {
             $denomination = new Denomination();
             $denomination->entityNumber = $data[0];
             $denomination->language = $data[1];
             $denomination->typeOfDenomination = $data[2];
             $this->denominationRepository->persist($denomination);
         }
+
         $this->updateDenomination($denomination, $data);
     }
 

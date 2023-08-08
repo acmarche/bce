@@ -10,7 +10,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class CbeRepository
 {
-    public function __construct(private ApiCbeRepository $apiCbeRepository, private SerializerInterface $serializer, private CbeCache $cbeCache)
+    public function __construct(private readonly ApiCbeRepository $apiCbeRepository, private readonly SerializerInterface $serializer, private readonly CbeCache $cbeCache)
     {
     }
 

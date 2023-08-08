@@ -13,6 +13,7 @@ class AcMarcheBceBundle extends AbstractBundle
     {
         return \dirname(__DIR__);
     }
+
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.php');

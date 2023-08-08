@@ -9,7 +9,7 @@ use Exception;
 
 class CodeHandler implements ImportHandlerInterface
 {
-    public function __construct(private CodeRepository $codeRepository, private CsvReader $csvReader)
+    public function __construct(private readonly CodeRepository $codeRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -32,7 +32,7 @@ class CodeHandler implements ImportHandlerInterface
      */
     public function handle($data): void
     {
-        if (($code = $this->codeRepository->checkExist($data->code, $data->language, $data->category)) !== null) {
+        if (($code = $this->codeRepository->checkExist($data->code, $data->language, $data->category)) instanceof Code) {
             $code->description = $data->description;
         } else {
             $this->codeRepository->persist($data);

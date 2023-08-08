@@ -16,26 +16,32 @@ class Establishment implements Stringable
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     public string $establishmentNumber;
+
     #[ORM\Column(type: 'string', length: 10, nullable: false)]
     public string $startDate;
+
     #[ORM\Column(type: 'string', length: 50, nullable: false)]
     public string $enterpriseNumber;
+
     /**
      * @var array|Address[]
      */
-    public array $addresses;
+    public array $addresses = [];
+
     /**
      * @var array|Contact[]
      */
-    public array $contacts;
+    public array $contacts = [];
+
     /**
      * @var array|Activity[]
      */
-    public array $activities;
+    public array $activities = [];
+
     /**
      * @var array|Denomination[]
      */
-    public array $denominations;
+    public array $denominations = [];
 
     public function __toString(): string
     {

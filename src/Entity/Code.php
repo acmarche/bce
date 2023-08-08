@@ -16,10 +16,13 @@ class Code implements Stringable
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false)]
     public string $category;
+
     #[ORM\Column(type: 'string', length: 15, nullable: false)]
     public string $code;
+
     #[ORM\Column(type: 'string', length: 5, nullable: false)]
     public string $language;
+
     #[ORM\Column(type: 'string', length: 250, nullable: false)]
     public string $description;
 

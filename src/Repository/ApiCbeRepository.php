@@ -14,9 +14,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class ApiCbeRepository
 {
     public $url;
+
     private HttpClientInterface $httpClient;
-    private string $clientId;
-    private string $secretKey;
+
+    private readonly string $clientId;
+
+    private readonly string $secretKey;
 
     public function __construct()
     {
@@ -63,7 +66,7 @@ class ApiCbeRepository
     {
         $statusCode = $request->getStatusCode();
         if (404 === $statusCode) {
-            throw new Exception("Aucune entreprise trouvée avec le numéro '.$number.'");
+            throw new Exception(sprintf('Aucune entreprise trouvée avec le numéro \'.%s.\'', $number));
         }
 
         if (400 === $statusCode) {

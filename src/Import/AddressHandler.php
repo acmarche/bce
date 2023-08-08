@@ -9,7 +9,7 @@ use Exception;
 
 class AddressHandler implements ImportHandlerInterface
 {
-    public function __construct(private AddressRepository $addressRepository, private CsvReader $csvReader)
+    public function __construct(private readonly AddressRepository $addressRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -33,12 +33,14 @@ class AddressHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (($address = $this->addressRepository->checkExist($data[0], $data[4])) === null) {
+
+        if (!($address = $this->addressRepository->checkExist($data[0], $data[4])) instanceof Address) {
             $address = new Address();
             $address->entityNumber = $data[0];
             $address->zipcode = $data[4];
             $this->addressRepository->persist($address);
         }
+
         $this->updateAddress($address, $data);
     }
 

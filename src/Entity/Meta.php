@@ -16,6 +16,7 @@ class Meta implements Stringable
     use IdTrait;
     #[ORM\Column(type: 'string', length: 150, nullable: false, unique: true)]
     public string $variable;
+
     #[ORM\Column(type: 'string', length: 150, nullable: false)]
     public string $value;
 

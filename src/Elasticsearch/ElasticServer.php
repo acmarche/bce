@@ -14,7 +14,7 @@ class ElasticServer
 {
     use ElasticClientTrait;
 
-    public const INDEX_NAME_VISIT_FR = 'cbe';
+    final public const INDEX_NAME_VISIT_FR = 'cbe';
 
     public function __construct()
     {
@@ -26,8 +26,8 @@ class ElasticServer
         try {
             $analyser = Yaml::parse(file_get_contents(__DIR__.'/mappings/analyzers.yaml'));
             $settings = Yaml::parse(file_get_contents(__DIR__.'/mappings/settings.yaml'));
-        } catch (ParseException $e) {
-            printf('Unable to parse the YAML string: %s', $e->getMessage());
+        } catch (ParseException $parseException) {
+            printf('Unable to parse the YAML string: %s', $parseException->getMessage());
 
             return;
         }
@@ -44,8 +44,8 @@ class ElasticServer
             $mapping = new Mapping($properties['mappings']['properties']);
             $response = $this->index->setMapping($mapping);
             dump($response);
-        } catch (ParseException $e) {
-            printf('Unable to parse the YAML string: %s', $e->getMessage());
+        } catch (ParseException $parseException) {
+            printf('Unable to parse the YAML string: %s', $parseException->getMessage());
         }
     }
 }

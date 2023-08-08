@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 
 class ImportHandler
 {
-    public function __construct(private iterable $handlers, private ServiceLocator $serviceLocator)
+    public function __construct(private readonly iterable $handlers, private readonly ServiceLocator $serviceLocator)
     {
     }
 
@@ -19,6 +19,7 @@ class ImportHandler
         if ($this->serviceLocator->get($key)) {
             return $this->serviceLocator->get($key);
         }
+
         throw new Exception('No handler found for '.$key);
     }
 
@@ -38,14 +39,17 @@ class ImportHandler
                     if (1000 === $i) {
                         //break;
                     }
+
                     ++$i;
                 }
+
                 $handler->flush();
                 dump('Memory: '.memory_get_usage());
             } catch (Exception $e) {
                 throw new Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
+
         dump('END');
     }
 }

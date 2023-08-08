@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CbeCache
 {
-    public function __construct(private ParameterBagInterface $parameterBag, private SerializerInterface $serializer)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly SerializerInterface $serializer)
     {
     }
 

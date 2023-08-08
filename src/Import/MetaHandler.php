@@ -9,7 +9,7 @@ use Exception;
 
 class MetaHandler implements ImportHandlerInterface
 {
-    public function __construct(private MetaRepository $metaRepository, private CsvReader $csvReader)
+    public function __construct(private readonly MetaRepository $metaRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -32,7 +32,7 @@ class MetaHandler implements ImportHandlerInterface
      */
     public function handle($data): void
     {
-        if (($meta = $this->metaRepository->findByVariable($data->variable)) !== null) {
+        if (($meta = $this->metaRepository->findByVariable($data->variable)) instanceof Meta) {
             $meta->value = $data->value;
         } else {
             $this->metaRepository->persist($data);

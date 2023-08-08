@@ -16,10 +16,13 @@ class Denomination implements Stringable
     use IdTrait;
     #[ORM\Column(type: 'string', length: 50, nullable: false)]
     public string $entityNumber;
+
     #[ORM\Column(type: 'smallint', length: 10, nullable: false)]
     public int $language;
+
     #[ORM\Column(type: 'smallint', length: 10, nullable: false)]
     public int $typeOfDenomination;
+
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     public string $denomination;
 

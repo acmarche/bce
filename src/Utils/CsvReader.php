@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CsvReader
 {
-    public function __construct(private ParameterBagInterface $parameterBag, private SerializerInterface $serializer)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, private readonly SerializerInterface $serializer)
     {
     }
 
@@ -46,6 +46,7 @@ class CsvReader
         if (!is_readable($file)) {
             throw new Exception('File not found '.$file);
         }
+
         $handle = fopen($file, 'r');
 
         while (!feof($handle)) {

@@ -9,7 +9,7 @@ use Exception;
 
 class ActivityHandler implements ImportHandlerInterface
 {
-    public function __construct(private ActivityRepository $activityRepository, private CsvReader $csvReader)
+    public function __construct(private readonly ActivityRepository $activityRepository, private readonly CsvReader $csvReader)
     {
     }
 
@@ -33,13 +33,15 @@ class ActivityHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (($activity = $this->activityRepository->checkExist($data[3], $data[0], $data[1])) === null) {
+
+        if (!($activity = $this->activityRepository->checkExist($data[3], $data[0], $data[1])) instanceof Activity) {
             $activity = new Activity();
             $activity->entityNumber = $data[0];
             $activity->activityGroup = $data[1];
             $activity->naceCode = $data[3];
             $this->activityRepository->persist($activity);
         }
+
         $this->updateActivity($activity, $data);
     }
 
