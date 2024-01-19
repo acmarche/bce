@@ -4,18 +4,20 @@ namespace AcMarche\Bce\Command;
 
 use AcMarche\Bce\Bce;
 use AcMarche\Bce\Import\ImportHandler;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+
+#[AsCommand(
+    name: 'bce:import',
+    description: 'Import bce csv files [all, activity, address, branch, code, contact, denomination, enterprise, establishment, meta]'
+)]
 class BceImportCommand extends Command
 {
-    protected static $defaultName = 'bce:import';
-
-    protected static $defaultDescription = 'Import bce csv files [all, activity, address, branch, code, contact, denomination, enterprise, establishment, meta]';
-
     public function __construct(
         private readonly ImportHandler $importHandler,
         string $name = null
