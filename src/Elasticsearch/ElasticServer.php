@@ -15,6 +15,7 @@ class ElasticServer
     use ElasticClientTrait;
 
     final public const INDEX_NAME_VISIT_FR = 'cbe';
+    const INDEX_NAME_SERVER = 'bottin';
 
     public function __construct()
     {
