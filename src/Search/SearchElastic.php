@@ -24,7 +24,7 @@ class SearchElastic implements SearchEngineInterface
     private ?BoolQuery $boolQuery = null;
 
     public function __construct(
-        #[Autowire(env: 'BOTTIN_INDEX_NAME')]
+        #[Autowire(env: 'MEILI_INDEX_NAME')]
         string $elasticIndexName, LoggerInterface $logger = null)
     {
         $this->connect($elasticIndexName);
